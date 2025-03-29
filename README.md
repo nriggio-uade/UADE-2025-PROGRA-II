@@ -1,2 +1,7 @@
 # UADE-2025-PROGRA-II
-TP Programación 2 (2025)
+
+INTEGRANTES:
+
+- Bullejos Bautista Gabriel
+- Cardozo Juan Cruz
+- Riggio Nicolás Uriel
