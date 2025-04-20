@@ -3,5 +3,5 @@
 INTEGRANTES:
 
 - Bullejos Bautista Gabriel
-- Cardozo Juan Cruz
+- Cardoso Juan Cruz
 - Riggio Nicolás Uriel
