@@ -6,7 +6,7 @@ import org.uade.util.Paciente;
 import org.uade.structure.implementation.dynamic.DynamicLinkedList;
 import org.uade.structure.implementation.dynamic.DynamicPriorityQueue;
 
-public class CentroEmergenciasService {
+/*public class CentroEmergenciasService {
     private DynamicPriorityQueue pacientesEnEspera; // Priorizamos por nivel de urgencia (menor número = mayor prioridad)
     private DynamicLinkedList medicosDisponibles;
     private DynamicLinkedList pacientesAtendidos;
@@ -15,6 +15,21 @@ public class CentroEmergenciasService {
         this.pacientesEnEspera = new DynamicPriorityQueue();
         this.medicosDisponibles = new DynamicLinkedList();
         this.pacientesAtendidos = new DynamicLinkedList();
+        inicializarMedicos(numMedicosIniciales);
+    }*/
+public class CentroEmergenciasService {
+    private DynamicPriorityQueue pacientesEnEspera;
+    private DynamicLinkedList medicosDisponibles;
+    private DynamicLinkedList pacientesAtendidosIds; // Ahora almacena IDs de Atencion
+    private Atencion[] historialAtenciones; // Array para mantener los objetos Atencion
+    private int contadorHistorial = 0;
+    private static final int MAX_HISTORIAL = 100; // Tamaño máximo del historial (ajustable)
+
+    public CentroEmergenciasService(int numMedicosIniciales) {
+        this.pacientesEnEspera = new DynamicPriorityQueue();
+        this.medicosDisponibles = new DynamicLinkedList();
+        this.pacientesAtendidosIds = new DynamicLinkedList();
+        this.historialAtenciones = new Atencion[MAX_HISTORIAL];
         inicializarMedicos(numMedicosIniciales);
     }
 
@@ -138,33 +153,33 @@ public class CentroEmergenciasService {
 
     public void atenderPaciente(Atencion atencion) {
         System.out.println("Iniciando atención a " + atencion.getPaciente().getNombre() + " por " + atencion.getMedico().getNombre());
-        // Simulación de tiempo de atención
         try {
-            Thread.sleep(2000); // Simula 2 segundos de atención
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         atencion.finalizarAtencion();
-        pacientesAtendidos.add(atencion);
+        if (contadorHistorial < MAX_HISTORIAL) {
+            historialAtenciones[contadorHistorial++] = atencion; // Guardamos el objeto Atencion en el array
+            pacientesAtendidosIds.add(atencion.getId()); // Guardamos el ID de la atención en la lista
+        } else {
+            System.out.println("Historial de atenciones lleno. No se puede registrar la atención.");
+        }
         Medico medico = atencion.getMedico();
         medico.setDisponible(true);
-        medicosDisponibles.add(medico.getId()); // Volvemos a agregar el ID del médico a la lista de disponibles
+        medicosDisponibles.add(medico.getId());
         System.out.println("Atención finalizada para " + atencion.getPaciente().getNombre() + ". " + atencion.getMedico().getNombre() + " está disponible.");
     }
 
     public void mostrarPacientesPendientes() {
-        System.out.println("Pacientes pendientes de atención (" + pacientesEnEspera.size() + "):");
         DynamicPriorityQueue tempQueue = new DynamicPriorityQueue();
+        int size = 0;
         while (!pacientesEnEspera.isEmpty()) {
-            int pacienteId = pacientesEnEspera.getElement();
-            int prioridad = pacientesEnEspera.getPriority();
-            Paciente paciente = obtenerPacienteDesdeId(pacienteId); // Necesitamos obtener el objeto Paciente
-            if (paciente != null) {
-                System.out.println("- " + paciente);
-            }
-            tempQueue.add(pacienteId, prioridad);
+            tempQueue.add(pacientesEnEspera.getElement(), pacientesEnEspera.getPriority());
             pacientesEnEspera.remove();
+            size++;
         }
+        System.out.println("Pacientes pendientes de atención (" + size + "):");
         while (!tempQueue.isEmpty()) {
             pacientesEnEspera.add(tempQueue.getElement(), tempQueue.getPriority());
             tempQueue.remove();
@@ -173,9 +188,24 @@ public class CentroEmergenciasService {
 
     public void generarReportes() {
         mostrarPacientesPendientes();
-        System.out.println("\nPacientes atendidos (" + pacientesAtendidos.size() + "):");
-        for (int i = 0; i < pacientesAtendidos.size(); i++) {
-            System.out.println("- " + pacientesAtendidos.get(i));
+        System.out.println("\nPacientes atendidos (" + pacientesAtendidosIds.size() + "):");
+        for (int i = 0; i < pacientesAtendidosIds.size(); i++) {
+            int atencionId = pacientesAtendidosIds.get(i);
+            Atencion atencion = buscarAtencionPorId(atencionId);
+            if (atencion != null) {
+                System.out.println("- " + atencion);
+            } else {
+                System.out.println("- Atención no encontrada (ID: " + atencionId + ")");
+            }
         }
+    }
+
+    private Atencion buscarAtencionPorId(int id) {
+        for (int i = 0; i < contadorHistorial; i++) {
+            if (historialAtenciones[i].getId() == id) {
+                return historialAtenciones[i];
+            }
+        }
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package org.uade.structure.implementation.fixed;
 
 import org.uade.structure.definition.LinkedListADT;
-
 /**
  * Implementación Estática de la interfaz LinkedListADT.
  * Utilizamos un array de tamaño fijo para guardar elementos.
@@ -39,7 +38,7 @@ public class StaticLinkedList implements LinkedListADT {
             throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
         }
         for (int i = this.count - 1; i >= index; i--) { //Muevo los elementos a la derecha, para hacer el espacio para el elemento nuevo
-             this.data[i + 1] = this.data[i]; //muevo a i+1 el valor que está en i
+            this.data[i + 1] = this.data[i]; //muevo a i+1 el valor que está en i
         }
         this.data[index] = value; // Ya hicimos el espacio en la posición 'index', asignamos el nuevo valor ahí.
         this.count++; //incremento count ya que ahora tienen un elemento mas
