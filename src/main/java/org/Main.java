@@ -3,7 +3,7 @@ package org;
 import org.uade.util.CentroEmergenciasService;
 import java.util.Scanner;
 
-public class Main { // Renombramos la clase a MainCentroEmergencias
+public class Main {
 
     private static CentroEmergenciasService servicio;
     private static Scanner scanner;
