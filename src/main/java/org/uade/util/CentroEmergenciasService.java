@@ -3,6 +3,7 @@ package org.uade.util;
 import org.uade.structure.implementation.dynamic.DynamicLinkedList;
 import org.uade.structure.implementation.dynamic.DynamicPriorityQueue;
 
+
 public class CentroEmergenciasService {
     private DynamicPriorityQueue pacientesEnEspera;
     private DynamicLinkedList medicosDisponiblesIds;
