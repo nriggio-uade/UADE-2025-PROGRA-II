@@ -40,8 +40,9 @@ public class Main {
         System.out.println("1. Registrar paciente");
         System.out.println("2. Dar de alta médico");
         System.out.println("3. Asignar médico al paciente");
-        System.out.println("4. Mostrar pacientes pendientes");
-        System.out.println("5. Generar reportes");
+        System.out.println("4. Finalizar atencion");
+        System.out.println("5. Mostrar pacientes pendientes");
+        System.out.println("6. Generar reportes");
         System.out.println("salir");
     }
 
@@ -50,8 +51,8 @@ public class Main {
             case "1":
                 System.out.print("Ingrese el nombre del paciente: ");
                 String nombrePaciente = scanner.nextLine();
-                System.out.print("Ingrese el nivel de urgencia (Alta, Media, Baja): ");
-                String urgencia = scanner.nextLine();
+                System.out.print("Ingrese urgencia (Alta, Media, Baja): ");
+                String urgencia = scanner.nextLine().trim();
                 servicio.registrarPaciente(nombrePaciente, urgencia);
                 break;
             case "2":
@@ -63,9 +64,15 @@ public class Main {
                 servicio.asignarMedico();
                 break;
             case "4":
-                servicio.mostrarPacientesPendientes();
+                System.out.print("Ingrese el ID de la atencion: ");
+                int atencionId = scanner.nextInt();
+                scanner.nextLine(); // Salto de linea
+                servicio.finalizarAtencion(atencionId);
                 break;
             case "5":
+                servicio.mostrarPacientesPendientes();
+                break;
+            case "6":
                 servicio.generarReportes();
                 break;
             case "salir":

@@ -1,19 +1,19 @@
 package org.uade.util;
 
 public class Medico {
-    private int id;
+    private int medicoID;
     private String nombre;
     private boolean disponible;
     private static int contadorId = 0;
 
     public Medico(String nombre) {
-        this.id = ++contadorId;
+        this.medicoID = ++contadorId;
         this.nombre = nombre;
         this.disponible = true;
     }
 
     public int getId() {
-        return id;
+        return medicoID;
     }
 
     public String getNombre() {
@@ -30,6 +30,6 @@ public class Medico {
 
     @Override
     public String toString() {
-        return "Médico [id=" + id + ", nombre=" + nombre + ", disponible=" + disponible + "]";
+        return "Médico [id=" + medicoID + ", nombre=" + nombre + ", disponible=" + disponible + "]";
     }
 }

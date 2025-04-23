@@ -7,15 +7,15 @@ public class Atencion {
     private Medico medico;
     private LocalDateTime inicioAtencion;
     private LocalDateTime finAtencion;
-    private int id; // Nuevo atributo para el ID único
-    private static int contadorId = 0; // Contador estático para generar IDs únicos
+    private int atencionID;
+    private static int contadorId = 0;
 
     public Atencion(Paciente paciente, Medico medico) {
         this.paciente = paciente;
         this.medico = medico;
         this.inicioAtencion = LocalDateTime.now();
         this.finAtencion = null;
-        this.id = ++contadorId; // Asignar un ID único al crear la atención
+        this.atencionID = ++contadorId;
     }
 
     public void finalizarAtencion() {
@@ -39,11 +39,11 @@ public class Atencion {
     }
 
     public int getId() {
-        return id;
+        return atencionID;
     }
 
     @Override
     public String toString() {
-        return "Atención [id=" + id + ", paciente=" + paciente.getNombre() + ", médico=" + medico.getNombre() + ", inicio=" + inicioAtencion + ", fin=" + finAtencion + "]";
+        return "Atención [id=" + atencionID + ", paciente=" + paciente.getNombre() + ", médico=" + medico.getNombre() + ", inicio=" + inicioAtencion + ", fin=" + finAtencion + "]";
     }
 }

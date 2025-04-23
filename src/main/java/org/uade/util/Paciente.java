@@ -2,14 +2,14 @@ package org.uade.util;
 
 public class Paciente {
     private String nombre;
-    private int nivelUrgencia; // Podemos usar enteros: 1 (Alta), 2 (Media), 3 (Baja)
-    private int id; // Identificador único del paciente
+    private int nivelUrgencia;
+    private int pacienteID;
     private static int contadorId = 0;
 
     public Paciente(String nombre, String urgencia) {
         this.nombre = nombre;
         this.nivelUrgencia = convertirUrgencia(urgencia);
-        this.id = ++contadorId;
+        this.pacienteID = ++contadorId;
     }
 
     private int convertirUrgencia(String urgencia) {
@@ -30,12 +30,12 @@ public class Paciente {
     }
 
     public int getId() {
-        return id;
+        return pacienteID;
     }
 
     @Override
     public String toString() {
-        return "Paciente [id=" + id + ", nombre=" + nombre + ", urgencia=" + getNivelUrgenciaTexto() + "]";
+        return "Paciente [id=" + pacienteID + ", nombre=" + nombre + ", urgencia=" + getNivelUrgenciaTexto() + "]";
     }
 
     public String getNivelUrgenciaTexto() {
